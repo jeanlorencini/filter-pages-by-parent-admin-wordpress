@@ -11,10 +11,19 @@
  * License: GPL v2 or later
  */
 
-// Previne acesso direto ao arquivo
 if (!defined('ABSPATH')) {
     exit;
 }
+
+// Carrega as traduções
+function filtrar_por_pai_load_textdomain() {
+    load_plugin_textdomain(
+        'filtrar-por-pai',
+        false,
+        dirname(plugin_basename(__FILE__)) . '/languages'
+    );
+}
+add_action('plugins_loaded', 'filtrar_por_pai_load_textdomain');
 
 // Carrega a classe principal
 require_once plugin_dir_path(__FILE__) . 'includes/class-page-parent-filter.php';

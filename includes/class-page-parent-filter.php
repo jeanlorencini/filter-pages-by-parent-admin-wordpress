@@ -19,7 +19,6 @@ class PageParentFilter {
     public function add_parent_filter_dropdown() {
         global $pagenow, $typenow;
         
-        // Verifica se estamos na listagem de páginas
         if ($pagenow !== 'edit.php' || $typenow !== 'page') {
             return;
         }
@@ -27,7 +26,7 @@ class PageParentFilter {
         $parent_id = isset($_GET['parent_filter']) ? (int) $_GET['parent_filter'] : 0;
         
         $dropdown_options = [
-            'show_option_none'  => 'Todas as páginas',
+            'show_option_none'  => __('All Pages', 'filtrar-por-pai'),
             'option_none_value' => '',
             'post_type'        => 'page',
             'selected'         => $parent_id,
@@ -38,7 +37,9 @@ class PageParentFilter {
             'hierarchical'     => true,
         ];
 
-        echo '<label class="screen-reader-text" for="parent_filter">Filtrar por página pai</label>';
+        echo '<label class="screen-reader-text" for="parent_filter">' . 
+             esc_html__('Filter by parent page', 'filtrar-por-pai') . 
+             '</label>';
         wp_dropdown_pages($dropdown_options);
     }
 
@@ -50,7 +51,6 @@ class PageParentFilter {
     public function filter_pages_by_parent($query) {
         global $pagenow, $typenow;
 
-        // Verifica se é a query principal na área administrativa
         if (!is_admin() || 
             !$query->is_main_query() || 
             $pagenow !== 'edit.php' || 
@@ -58,7 +58,6 @@ class PageParentFilter {
             return;
         }
 
-        // Verifica se existe um filtro de pai selecionado
         if (!isset($_GET['parent_filter']) || empty($_GET['parent_filter'])) {
             return;
         }
